@@ -1,0 +1,22 @@
+version: "3.8"
+services:
+  nginx-react:
+    container_name: ngixreactapp
+    build:
+      context: ./react-app
+      dockerfile: Dockerfile
+    ports:
+      - 80:80
+    environment:
+      NODE_ENV: production
+
+  flask:
+    container_name: flaskproject
+    build:
+      context: ./flask-app
+      dockerfile: Dockerfile
+    command: gunicorn --bind 0.0.0.0:5000 manage:app
+    ports:
+      - 5000:5000
+    env_file:
+      - ./.env.prod
