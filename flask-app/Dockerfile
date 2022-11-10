@@ -11,7 +11,7 @@
 #CMD [ "python3", "-m" , "flask", "run", "--host=0.0.0.0"]
 
 
-FROM tensorflow/tensorflow
+FROM tensorflow/tensorflow:2.9.2
 
 # set work directory
 WORKDIR /app
