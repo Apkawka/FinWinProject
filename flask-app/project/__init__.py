@@ -7,8 +7,6 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import ForeignKey, Integer, Column
 from sqlalchemy.orm import relationship
 
-from ml.test_model import cheeeck
-
 
 db = SQLAlchemy()
 
@@ -84,12 +82,19 @@ class ListUsers(Resource):
             listUsers.append({
                 'name': i.name,
                 'phone': i.phone,
-                'uid': i.uid
+                'uid': i.uid,
+                'users_for_transfers': []
             })
+            for k in i.usersForTransfers:
+                listUsers[len(listUsers)-1]['users_for_transfers'].append({
+                    'name': k.name,
+                    'phone': k.phone,
+                    'uid': k.uid,
+                    'user_id': k.user_id
+                })
 
         return {
-            "users": listUsers,
-            "test_iml": cheeeck(265865)
+            "users": listUsers
         }
 
 

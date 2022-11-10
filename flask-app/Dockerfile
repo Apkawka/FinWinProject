@@ -11,7 +11,7 @@
 #CMD [ "python3", "-m" , "flask", "run", "--host=0.0.0.0"]
 
 
-FROM tensorflow/tensorflow:2.9.2
+FROM tensorflow/tensorflow
 
 # set work directory
 WORKDIR /app
@@ -23,6 +23,7 @@ ENV PYTHONUNBUFFERED 1
 COPY requirements.txt requirements.txt
 
 RUN pip install --upgrade pip
+
 
 RUN pip3 install -r requirements.txt
 

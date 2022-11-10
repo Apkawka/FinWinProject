@@ -120,8 +120,6 @@ const Payments: FC = () => {
     useEffect(() => {
         if (state === null) {
             navigate('/')
-        } else {
-
         }
     }, [])
 
@@ -178,7 +176,12 @@ const Payments: FC = () => {
                             </Grid>
                         </Grid>
                         <Grid container>
-                            {users.map((o, i) => {
+                            {state.users_for_transfers.map((o: {
+                                name: string
+                                phone: string
+                                uid: string
+                                user_id: number
+                            }, i: number) => {
                                 return (
                                     <Grid item xs={2.4} sm={2.4} md={2.4} lg={2.4} xl={2.4} mt={2} sx={{
                                         display: 'flex',
@@ -208,10 +211,10 @@ const Payments: FC = () => {
                                                 fontSize: '18px',
                                                 borderColor: 'white'
                                             }}>
-                                            {o.slice(0, 1)}
+                                            {o.name.slice(0, 1)}
                                         </span>
                                             </Fab>
-                                            <span style={{fontSize: '12px'}}>{o}</span>
+                                            <span style={{fontSize: '12px'}}>{o.name}</span>
                                         </Stack>
                                     </Grid>
                                 )

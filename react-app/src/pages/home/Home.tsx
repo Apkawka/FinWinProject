@@ -12,13 +12,12 @@ const Home: FC = () => {
 
     const [users, setUsers] = useState<[{
         name: string,
-        phone: string
+        phone: string,
+        uid: string,
+        usersForTransfers: any
     }] | undefined>()
 
-    const [user, setUser] = useState<[{
-        name: string,
-        phone: string
-    }] | undefined>()
+    const [user, setUser] = useState<{name: string, phone: string, uid: string, usersForTransfers: any} | undefined>()
 
     useEffect(() => {
         axios({
@@ -28,7 +27,7 @@ const Home: FC = () => {
             .then(function (response) {
                 //@ts-ignore
                 setUsers(response.data.users)
-                console.log(response.data.test_iml)
+                console.log(response.data.users)
             });
     }, [])
 
@@ -58,15 +57,23 @@ const Home: FC = () => {
                                     <select
                                         style={{width: '100%'}}
                                         onClick={(e) => {
-                                            //@ts-ignore
-                                            setUser(e.target.value)
+
+
+                                            users?.find((opt) => {
+                                                //@ts-ignore
+                                                if (opt.uid === e.target.value) {
+                                                    setUser(opt)
+                                                }
+                                            })
+
+
                                         }}
                                     >
                                         {
                                             users !== undefined &&
                                             users?.map((o, i) => {
                                                 return (
-                                                    <option value={o.phone} key={i}>{o.phone.slice(1)}</option>
+                                                    <option value={o.uid} key={i}>{o.phone.slice(1)}</option>
                                                 )
                                             })
                                         }
