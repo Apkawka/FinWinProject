@@ -4,6 +4,8 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS
 from flask_restful import Api, Resource, reqparse
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import ForeignKey, Integer, Column
+from sqlalchemy.orm import relationship
 
 db = SQLAlchemy()
 
@@ -22,18 +24,45 @@ parser = reqparse.RequestParser()
 
 
 class User(db.Model):
-    __tablename__ = "users"
+    __tablename__ = "user"
 
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(128), nullable=False)
-    phone = db.Column(db.String(11), unique=True, nullable=False)
+    id = Column(db.Integer, primary_key=True)
+    name = Column(db.String(128), nullable=False)
+    phone = Column(db.String(11), unique=True, nullable=False)
+    uid = Column(db.String(10), unique=True, nullable=False)
+
+    usersForTransfers = relationship("UsersForTransfers", backref='user')
+
+    # usersForTransfersId = Column(Integer, ForeignKey('UsersForTransfers.id'))
+    # usersForTransfers = relationship("UsersForTransfers")
 
     def __repr__(self):
         return f"<phone {self.phone}>"
 
-    def __init__(self, phone, name):
+    def __init__(self, phone, name, uid):
         self.phone = phone
         self.name = name
+        self.uid = uid
+
+
+class UsersForTransfers(db.Model):
+    __tablename__ = "UsersForTransfers"
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(128), nullable=False)
+    phone = db.Column(db.String(11), unique=True, nullable=False)
+    uid = db.Column(db.String(10), unique=True, nullable=False)
+
+    user_id = db.Column(Integer, ForeignKey('user.id'))
+
+    def __repr__(self):
+        return f"<phone {self.phone}>"
+
+    def __init__(self, phone, name, uid, user_id):
+        self.phone = phone
+        self.name = name
+        self.uid = uid
+        self.user_id = user_id
 
 
 with app.app_context():
@@ -50,7 +79,8 @@ class ListUsers(Resource):
         for i in users:
             listUsers.append({
                 'name': i.name,
-                'phone': i.phone
+                'phone': i.phone,
+                'uid': i.uid
             })
 
         return {
@@ -66,11 +96,13 @@ class AddUser(Resource):
     def post(self):
         parser.add_argument('name', type=str)
         parser.add_argument('phone', type=str)
+        parser.add_argument('uid', type=str)
 
         name = parser.parse_args()['name']
         phone = parser.parse_args()['phone']
+        uid = parser.parse_args()['uid']
 
-        addUser = User(phone=phone, name=name)
+        addUser = User(phone=phone, name=name, uid=uid)
         db.session.add(addUser)
 
         try:
@@ -85,3 +117,39 @@ class AddUser(Resource):
 
 
 api.add_resource(AddUser, '/add-user')
+
+
+class AddUsersForTransfers(Resource):
+
+    def post(self):
+        parser.add_argument('name', type=str)
+        parser.add_argument('phone', type=str)
+        parser.add_argument('uid', type=str)
+        parser.add_argument('users', type=str)
+
+        name = parser.parse_args()['name']
+        phone = parser.parse_args()['phone']
+        uid = parser.parse_args()['uid']
+        user = parser.parse_args()['users']
+
+        users = []
+
+        for i in user:
+            usersForTransfer = User.query.get(i)
+            users.append(usersForTransfer)
+
+        addUsersForTransfer = UsersForTransfers(phone=phone, name=name, uid=uid, user_id=user)
+        db.session.add(addUsersForTransfer)
+
+        try:
+            db.session.commit()
+            return {
+                "status": 1,
+            }
+        except:
+            return {
+                "status": 0
+            }
+
+
+api.add_resource(AddUsersForTransfers, '/add-users-for-transfers')
