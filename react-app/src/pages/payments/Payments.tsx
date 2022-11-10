@@ -1,10 +1,10 @@
-import React, {FC} from "react";
+import React, {FC, useEffect} from "react";
 import {Container, Fab, Grid, Paper, Stack, SvgIconTypeMap} from "@mui/material";
 import DescriptionIcon from '@mui/icons-material/Description';
 //@ts-ignore
-import phoneImg from './images/phone.png'
+import phoneImg from './static/images/phone.png'
 //@ts-ignore
-import searchImage from './images/search.png'
+import searchImage from './static/images/search.png'
 
 import CreditCardTwoToneIcon from '@mui/icons-material/CreditCardTwoTone';
 
@@ -24,6 +24,7 @@ import DirectionsBusFilledTwoToneIcon from '@mui/icons-material/DirectionsBusFil
 import LocalPhoneTwoToneIcon from '@mui/icons-material/LocalPhoneTwoTone';
 import TvTwoToneIcon from '@mui/icons-material/TvTwoTone';
 import AccountBalanceWalletTwoToneIcon from '@mui/icons-material/AccountBalanceWalletTwoTone';
+import {useLocation, useNavigate} from "react-router";
 
 const users = ['Себе', 'Никитос', "шаурма вокзал", 'Мама', "Суши"]
 const transfer: Array<{
@@ -112,6 +113,18 @@ const action: Array<{
 
 const Payments: FC = () => {
 
+    const {state} = useLocation();
+
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        if (state === null) {
+            navigate('/')
+        } else {
+
+        }
+    }, [])
+
     return (
         <React.Fragment>
             <Container>
@@ -181,11 +194,15 @@ const Payments: FC = () => {
                                             mt={2}
                                             alignItems={'center'}
                                         >
-                                            <Fab size="medium" aria-label="add"
-                                                 sx={{
-                                                     textAlign: 'center',
-                                                     backgroundColor: '#52565A',
-                                                 }}>
+                                            <Fab
+                                                size="medium"
+                                                aria-label="add"
+                                                sx={{
+                                                    textAlign: 'center',
+                                                    backgroundColor: '#52565A',
+                                                }}
+                                                onClick={() => alert('Полученный номер: ')}
+                                            >
                                         <span
                                             style={{
                                                 fontSize: '18px',

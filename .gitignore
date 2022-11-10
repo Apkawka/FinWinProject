@@ -3,11 +3,13 @@
 # dependencies
 /react-app/node_modules
 /react-app/js
+/react-app/.idea
 /react-app/build
-/flask-app/env
+/flask-app/flask/env
 /.pnp
 .pnp.js
 .idea
+/flask-app/.idea
 
 # testing
 /coverage
@@ -25,3 +27,6 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+flask-app/__pycache__/manage.cpython-310.pyc
+flask-app/project/__pycache__/__init__.cpython-310.pyc
+flask-app/project/__pycache__/config.cpython-310.pyc
