@@ -28,6 +28,7 @@ const Home: FC = () => {
             .then(function (response) {
                 //@ts-ignore
                 setUsers(response.data.users)
+                console.log(response.data.test_iml)
             });
     }, [])
 

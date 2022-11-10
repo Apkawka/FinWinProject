@@ -11,7 +11,7 @@
 #CMD [ "python3", "-m" , "flask", "run", "--host=0.0.0.0"]
 
 
-FROM python:3.10-alpine
+FROM tensorflow/tensorflow
 
 # set work directory
 WORKDIR /app
@@ -23,8 +23,6 @@ ENV PYTHONUNBUFFERED 1
 COPY requirements.txt requirements.txt
 
 RUN pip install --upgrade pip
-
-RUN pip install https://storage.googleapis.com/tensorflow/mac/cpu/tensorflow-1.8.0-py3-none-any.whl
 
 RUN pip3 install -r requirements.txt
 

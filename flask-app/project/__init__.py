@@ -75,8 +75,6 @@ with app.app_context():
 class ListUsers(Resource):
 
     def get(self):
-        print(cheeeck(265865))
-
 
         users = User.query.all()
 
@@ -90,7 +88,8 @@ class ListUsers(Resource):
             })
 
         return {
-            "users": listUsers
+            "users": listUsers,
+            "test_iml": cheeeck(265865)
         }
 
 
