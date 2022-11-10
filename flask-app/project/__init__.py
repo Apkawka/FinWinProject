@@ -7,6 +7,9 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import ForeignKey, Integer, Column
 from sqlalchemy.orm import relationship
 
+from ml.test_model import cheeeck
+
+
 db = SQLAlchemy()
 
 app = Flask(__name__)
@@ -72,6 +75,9 @@ with app.app_context():
 class ListUsers(Resource):
 
     def get(self):
+        print(cheeeck(265865))
+
+
         users = User.query.all()
 
         listUsers = []

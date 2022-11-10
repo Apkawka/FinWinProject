@@ -22,6 +22,10 @@ ENV PYTHONUNBUFFERED 1
 
 COPY requirements.txt requirements.txt
 
+RUN pip install --upgrade pip
+
+RUN pip install https://storage.googleapis.com/tensorflow/mac/cpu/tensorflow-1.8.0-py3-none-any.whl
+
 RUN pip3 install -r requirements.txt
 
 COPY . .
